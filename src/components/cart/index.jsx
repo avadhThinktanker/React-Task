@@ -1,17 +1,44 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import Navbar from "../navbar";
 import ProductCard from "../product-card";
 import "./style.css";
 
 const CartPage = () => {
   const items = useSelector((state) => state.cart.items);
-  console.log("🚀 ~ CartPage ~ items:", items[0]);
-  if (items.length == 0) {
-    return <h1>No item available</h1>;
+
+  function renderCartItems() {
+    return items.map((item) => (
+      <ProductCard key={item.id} product={item} type="cart" />
+    ));
   }
+
+  const totalAmount = items
+    .reduce((total, item) => total + item.price * item.quantity, 0)
+    .toFixed(2);
+
   return (
     <>
-      <ProductCard product={items[0]} type="cart" />
+      <Navbar type="cart" />
+      <div className="cart_container">
+        <div className="cart_items">{renderCartItems()}</div>
+        <div className="cart_bill">
+          <p>
+            {" "}
+            <span>Name: </span> <span>Avadh</span>
+          </p>
+          <p>
+            <span>Address: </span> <span>Ahmedabad</span>
+          </p>
+          <p>
+            <span>Email: </span> <span>example@gmail.com</span>
+          </p>
+          <p>
+            <span>Total Amount: </span>
+          </p>
+          <span>{totalAmount}</span>
+        </div>
+      </div>
     </>
   );
 };

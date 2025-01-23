@@ -1,13 +1,33 @@
 import React from "react";
 import "./style.css";
-import { addToCart } from "../../store/cartSlice";
-import { useDispatch } from "react-redux";
+import {
+  addToCart,
+  incrementQuantity,
+  decrementQuantity,
+} from "../../store/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 
 const ProductCard = ({ product, type }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const select = useSelector(
+    (state) =>
+      state.cart.items.find((item) => item.id == product.id) || { quantity: 0 }
+  );
   function handleClick() {
     dispatch(addToCart(product));
+    navigate("/cart");
   }
+
+  function increCount() {
+    dispatch(incrementQuantity(product));
+  }
+
+  function decreaseCount() {
+    dispatch(decrementQuantity(product.id));
+  }
+
   return (
     <div className="product-card">
       <div className="product-image-container">
@@ -52,9 +72,20 @@ const ProductCard = ({ product, type }) => {
               </svg>
             </span>
           </div>
-          <span className="ratings-count">
-            ({product.ratings.count} Reviews)
-          </span>
+          {type == "cart" && (
+            <span className="ratings-count">
+              ({product.ratings.count} Reviews)
+            </span>
+          )}
+        </div>
+        <div className="product-couter-container">
+          <button onClick={decreaseCount} className="product-count">
+            -
+          </button>
+          <span>{select.quantity} </span>
+          <button onClick={increCount} className="product-count">
+            +
+          </button>
         </div>
         <div className="content-spacing">
           <p
@@ -64,17 +95,19 @@ const ProductCard = ({ product, type }) => {
           >
             {product.stock ? "In Stock" : "Out of Stock"}
           </p>
-          <button
-            onClick={handleClick}
-            className="add-to-cart-button"
-            disabled={!product.stock}
-          >
-            Add to Cart
-          </button>
+          {type !== "cart" && (
+            <button
+              onClick={handleClick}
+              className="add-to-cart-button"
+              disabled={!product.stock}
+            >
+              Add to Cart
+            </button>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default ProductCard;
+export default React.memo(ProductCard);
