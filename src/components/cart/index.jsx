@@ -21,23 +21,25 @@ const CartPage = () => {
     <>
       <Navbar type="cart" />
       <div className="cart_container">
+        {items.length <= 0 && <h1>Cart is Empty..</h1>}
         <div className="cart_items">{renderCartItems()}</div>
-        <div className="cart_bill">
-          <p>
-            {" "}
-            <span>Name: </span> <span>Avadh</span>
-          </p>
-          <p>
-            <span>Address: </span> <span>Ahmedabad</span>
-          </p>
-          <p>
-            <span>Email: </span> <span>example@gmail.com</span>
-          </p>
-          <p>
-            <span>Total Amount: </span>
-          </p>
-          <span>{totalAmount}</span>
-        </div>
+        {items.length > 0 && (
+          <div className="cart_bill">
+            <p>
+              <span>Name: </span> <span>Avadh</span>
+            </p>
+            <p>
+              <span>Address: </span> <span>Ahmedabad</span>
+            </p>
+            <p>
+              <span>Email: </span> <span>example@gmail.com</span>
+            </p>
+            <p>
+              <span>Total Amount: </span>
+            </p>
+            <span>{totalAmount}</span>
+          </div>
+        )}
       </div>
     </>
   );

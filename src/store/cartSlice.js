@@ -30,7 +30,7 @@ const cartSlice = createSlice({
       if (product && product.quantity > 0) {
         product.quantity -= 1;
       }
-      if (product.quantity === 0) {
+      if (product && product.quantity === 0) {
         state.items = state.items.filter((item) => item.id !== productId);
       }
     },

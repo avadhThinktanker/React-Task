@@ -12,7 +12,11 @@ const ProductList = () => {
     ));
   }
 
-  return <div className="product_container">{renderPostCard()}</div>;
+  return (
+    <div className="product_container">
+      {products && products.length > 0 && renderPostCard()}
+    </div>
+  );
 };
 
 export default ProductList;

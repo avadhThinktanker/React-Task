@@ -11,9 +11,8 @@ import { useNavigate } from "react-router";
 const ProductCard = ({ product, type }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const select = useSelector(
-    (state) =>
-      state.cart.items.find((item) => item.id == product.id) || { quantity: 0 }
+  const select = useSelector((state) =>
+    state.cart.items.find((item) => item.id == product.id)
   );
   function handleClick() {
     dispatch(addToCart(product));
@@ -82,7 +81,7 @@ const ProductCard = ({ product, type }) => {
           <button onClick={decreaseCount} className="product-count">
             -
           </button>
-          <span>{select.quantity} </span>
+          <span>{select?.quantity || 0} </span>
           <button onClick={increCount} className="product-count">
             +
           </button>
@@ -110,4 +109,4 @@ const ProductCard = ({ product, type }) => {
   );
 };
 
-export default React.memo(ProductCard);
+export default ProductCard;
