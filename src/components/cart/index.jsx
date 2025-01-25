@@ -10,6 +10,7 @@ const CartPage = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [error, setError] = useState("");
 
+<<<<<<< HEAD
 
   const totalAmount = items
     .reduce((total, item) => total + item.price * item.quantity, 0)
@@ -59,10 +60,14 @@ const CartPage = () => {
     ));
   }
 
+=======
+  const totalAmount = items
+    .reduce((total, item) => total + item.price * item.quantity, 0)
+    .toFixed(2);
+>>>>>>> 53cb5ea (implement redux-persist)
 
   const handleCoupon = () => {
     const couponCode = ref?.current?.value;
-    console.log(couponCode);
     if (!couponCode) {
       setError("");
       return;
@@ -96,7 +101,14 @@ const CartPage = () => {
         setDiscountAmount(totalAmount);
     }
   };
+
   useEffect(() => handleCoupon(), [totalAmount]);
+
+  function renderCartItems() {
+    return items.map((item) => (
+      <ProductCard key={item.id} product={item} type="cart" />
+    ));
+  }
 
   return (
     <>
