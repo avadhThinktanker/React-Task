@@ -10,15 +10,55 @@ const CartPage = () => {
   const [discountAmount, setDiscountAmount] = useState(0);
   const [error, setError] = useState("");
 
+
+  const totalAmount = items
+    .reduce((total, item) => total + item.price * item.quantity, 0)
+    .toFixed(2);
+
+  const handleCoupon = () => {
+    const couponCode = ref?.current?.value;
+    if (!couponCode) {
+      setError("");
+      return;
+    }
+    switch (couponCode) {
+      case "avadh123":
+        if (totalAmount > 1000) {
+          setDiscountAmount((totalAmount * 0.9).toFixed(2));
+        } else {
+          setDiscountAmount((totalAmount - 100).toFixed(2));
+        }
+        break;
+      case "1333":
+        if (totalAmount > 1500) {
+          setDiscountAmount((totalAmount * 0.85).toFixed(2));
+        } else {
+          setDiscountAmount((totalAmount - 250).toFixed(2));
+        }
+        setError("");
+        break;
+      case "1222":
+        if (totalAmount > 2500) {
+          setDiscountAmount((totalAmount * 0.75).toFixed(2));
+        } else {
+          setDiscountAmount((totalAmount - 500).toFixed(2));
+        }
+        setError("");
+        break;
+      default:
+        setError("Invalid Coupon Code");
+        setDiscountAmount(totalAmount);
+    }
+  };
+
+  useEffect(() => handleCoupon(), [totalAmount]);
+
   function renderCartItems() {
     return items.map((item) => (
       <ProductCard key={item.id} product={item} type="cart" />
     ));
   }
 
-  const totalAmount = items
-    .reduce((total, item) => total + item.price * item.quantity, 0)
-    .toFixed(2);
 
   const handleCoupon = () => {
     const couponCode = ref?.current?.value;
