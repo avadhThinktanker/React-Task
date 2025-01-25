@@ -17,7 +17,7 @@ const Navbar = ({ type }) => {
               alt="redux_logo"
               className="logo-image"
             />
-            <span className="logo-text">React Redux</span>
+            <span className="logo-text">Ecommerce</span>
           </div>
         </NavLink>
         {type !== "cart" && (
